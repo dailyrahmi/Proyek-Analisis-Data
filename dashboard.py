@@ -34,7 +34,7 @@ df_another = None
 with st.spinner("Memuat dataset..."):
     try:
         # Gunakan path relatif untuk memuat dataset (pastikan file berada di folder yang sama dengan `dashboard.py`)
-        df_another = pd.read_csv(r'Bike Sharing Dataset/day.csv')
+        df_another = pd.read_csv(r'Bike Sharing Dataset/hour.csv')
         st.success("Dataset bike sharing hour berhasil dimuat!")
     except FileNotFoundError:
         st.error("Error memuat dataset bike sharing hour: File tidak ditemukan. Pastikan file 'hour.csv' berada di dalam folder 'datasets'.")

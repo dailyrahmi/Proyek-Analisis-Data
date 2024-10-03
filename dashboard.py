@@ -41,6 +41,11 @@ with st.spinner("Memuat dataset..."):
     except Exception as e:
         st.error(f"Error memuat dataset bike sharing hour: {e}")
 
+with st.sidebar:
+    # Menambahkan gambar di sidebar
+    st.image("[Proyek Analisis Data - assets](https://github.com/dailyrahmi/Proyek-Analisis-Data/tree/main/assets)")
+
+
 # Sidebar untuk navigasi
 st.sidebar.header("Navigasi Data Bike Sharing")
 menu = st.sidebar.radio("Pilih bagian:", ["Tampilkan Data", "Visualisasi Bike Sharing Day", "Visualisasi Bike Sharing Hour", "Analisis RFM", "Tentang Aplikasi"])

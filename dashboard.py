@@ -4,14 +4,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import datetime as dt
 
-# Mengatur judul aplikasi dan tema
-st.set_page_config(
-    page_title="Dashboard Analisis Data Bike Sharing",
-    page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
 # Menambahkan judul utama dan deskripsi aplikasi
 st.markdown("<h1 style='text-align: center; color: #4CAF50;'>Dashboard Analisis Data Bike Sharing🚴</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; font-size: 18px;'>Analisis data bike sharing untuk memahami pola penggunaan sepeda berdasarkan hari dan jam.</p>", unsafe_allow_html=True)
@@ -39,7 +31,10 @@ except Exception as e:
 
 # Sidebar untuk navigasi
 with st.sidebar:
-    st.image("assets/pngwing.com.png", use_column_width=True)
+    if os.path.exists(image_path):
+    st.image(image_path, use_column_width=True)
+else:
+    st.error("Gambar tidak ditemukan! Periksa path gambar di folder 'assets'.")
     st.header("Navigasi Data Bike Sharing")
     menu = st.radio("Pilih bagian:", ["Tampilkan Data", "Visualisasi Bike Sharing Day", "Visualisasi Bike Sharing Hour", "Analisis RFM", "Tentang Aplikasi"])
 

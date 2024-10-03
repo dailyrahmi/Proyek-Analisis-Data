@@ -41,7 +41,7 @@ with st.spinner("Memuat dataset..."):
 
 with st.sidebar:
     # Menambahkan gambar di sidebar
-    st.image("[Proyek Analisis Data - assets](https://github.com/dailyrahmi/Proyek-Analisis-Data/tree/main/assets)")
+    st.image("assets")
 
 # Sidebar untuk navigasi
 st.sidebar.header("Navigasi Data Bike Sharing")

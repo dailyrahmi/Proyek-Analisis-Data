@@ -13,7 +13,7 @@ st.write("---")
 # Memuat dataset pertama (bike sharing day)
 df_bike = None
 try:
-    df_bike = pd.read_csv (r'C:\Users\Asus\Documents\DICODING\Dataset Bike Sharing\day.csv')
+    df_bike = pd.read_csv ('dashboard/all_data_day.csv')
     st.success("Dataset bike sharing day berhasil dimuat!")
 except FileNotFoundError:
     st.error("Error memuat dataset bike sharing day: File tidak ditemukan. Pastikan file 'day.csv' berada di dalam folder 'Bike Sharing Dataset'.")
@@ -23,7 +23,7 @@ except Exception as e:
 # Memuat dataset kedua (bike sharing hour)
 df_another = None
 try:
-    df_another = pd.read_csv(r'C:\Users\Asus\Documents\DICODING\Dataset Bike Sharing\hour.csv')
+    df_another = pd.read_csv('dashboard/all_data_hour.csv')
     st.success("Dataset bike sharing hour berhasil dimuat!")
 except FileNotFoundError:
     st.error("Error memuat dataset bike sharing hour: File tidak ditemukan. Pastikan file 'hour.csv' berada di dalam folder 'Bike Sharing Dataset'.")

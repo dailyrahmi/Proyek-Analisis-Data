@@ -4,7 +4,7 @@ import seaborn as sns
 import streamlit as st
 
 # Mengatur style untuk seaborn
-sns.set(style='darkgrid')
+sns.set(style='whitegrid')
 
 # Memuat dataset
 def load_data():

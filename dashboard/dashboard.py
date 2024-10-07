@@ -162,53 +162,46 @@ if menu == "Analisis RFM":
         # Menampilkan segmen RFM
         st.write("Segmentasi Pelanggan Berdasarkan Skor RFM:")
         st.dataframe(rfm_df[['customer_id', 'RFM_Segment']])
+        # Pastikan DataFrame df_day terdefinisi dan memiliki kolom yang benar
+
+# Cek kolom
+st.write(df_day.columns)
+
+# Mengubah tipe data jika perlu
+df_day['date_day'] = pd.to_datetime(df_day['date_day'])
 
 # Menghitung metrik RFM
-tanggal_referensi = df_day['dteday'].max()
-df_day['Rentang_Hari'] = (tanggal_referensi - df_day['dteday']).dt.days
+tanggal_referensi = df_day['date_day'].max()  # Pastikan menggunakan nama kolom yang benar
+df_day['Rentang_Hari'] = (tanggal_referensi - df_day['date_day']).dt.days
 
-# Calculate Frequency
-frekuensi_penggunaan = df_day.groupby('dteday')['count'].sum().reset_index()
-frekuensi_penggunaan.columns = ['dteday', 'Frekuensi']
+# Menghitung Frequency
+frekuensi_penggunaan = df_day.groupby('date_day')['total_count'].sum().reset_index()
+frekuensi_penggunaan.columns = ['date_day', 'Frekuensi']
 
-# Calculate Monetary
-moneter_pengguna = df_day.groupby('dteday')['registered'].sum().reset_index()
-moneter_pengguna.columns = ['dteday', 'Nilai_Moneter']
+# Menghitung Monetary
+moneter_pengguna = df_day.groupby('date_day')['registered'].sum().reset_index()
+moneter_pengguna.columns = ['date_day', 'Nilai_Moneter']
 
-# Combine RFM metrics into one DataFrame
-rfm_df = df_day[['dteday', 'Rentang_Hari']].merge(frekuensi_penggunaan, on='dteday', how='left').merge(moneter_pengguna, on='dteday', how='left')
+# Menggabungkan ketiga metrik RFM menjadi satu DataFrame
+rfm_df = df_day[['date_day', 'Rentang_Hari']].merge(frekuensi_penggunaan, on='date_day', how='left').merge(moneter_pengguna, on='date_day', how='left')
 
-# Create visualizations for RFM metrics
+# Visualisasi dan menampilkan grafik
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
-warna = ["#72BCD4"] * 5  # Color for all bars
+warna = ["#72BCD4"] * 5
 
-# Recency Plot
-sns.barplot(y="Rentang_Hari", x="dteday", data=rfm_df.sort_values(by="Rentang_Hari").head(5), palette=warna, ax=ax[0])
-ax[0].set_ylabel(None)
-ax[0].set_xlabel(None)
+sns.barplot(y="Rentang_Hari", x="date_day", data=rfm_df.sort_values(by="Rentang_Hari").head(5), palette=warna, ax=ax[0])
 ax[0].set_title("Recency (dalam hari)", loc="center", fontsize=18)
-ax[0].tick_params(axis='x', labelsize=15)
 
-# Frequency Plot
-sns.barplot(y="Frekuensi", x="dteday", data=rfm_df.sort_values(by="Frekuensi", ascending=False).head(5), palette=warna, ax=ax[1])
-ax[1].set_ylabel(None)
-ax[1].set_xlabel(None)
+sns.barplot(y="Frekuensi", x="date_day", data=rfm_df.sort_values(by="Frekuensi", ascending=False).head(5), palette=warna, ax=ax[1])
 ax[1].set_title("Frekuensi Peminjaman", loc="center", fontsize=18)
-ax[1].tick_params(axis='x', labelsize=15)
 
-# Monetary Plot
-sns.barplot(y="Nilai_Moneter", x="dteday", data=rfm_df.sort_values(by="Nilai_Moneter", ascending=False).head(5), palette=warna, ax=ax[2])
-ax[2].set_ylabel(None)
-ax[2].set_xlabel(None)
+sns.barplot(y="Nilai_Moneter", x="date_day", data=rfm_df.sort_values(by="Nilai_Moneter", ascending=False).head(5), palette=warna, ax=ax[2])
 ax[2].set_title("Nilai Moneter", loc="center", fontsize=18)
-ax[2].tick_params(axis='x', labelsize=15)
 
-# Main title for all charts
-plt.suptitle("Analisis Hari Terbaik Berdasarkan Metrik RFM", fontsize=20)
+plt.suptitle("Analisis Hari Terbaik Berdasarkan Metrik RFM (tanggal)", fontsize=20)
 
-# Show the plots in Streamlit
+# Menampilkan grafik di Streamlit
 st.pyplot(fig)
-
 
 # Tentang aplikasi
 if menu == "Tentang Aplikasi":

@@ -149,7 +149,7 @@ def plot_season_rentals(df):
     season_counts = df.groupby('season')['total_count'].sum().sort_values(ascending=False)
 
     fig, ax = plt.subplots(figsize=(10, 6))
-    palette_colors = ['#ff6666', '#ff9999', '#ff9999', '#ff9999']
+    palette_colors = ['#ff6666', '#ff9999', '#66ff66', '#6699ff']
     bars = sns.barplot(x=season_counts.index, y=season_counts.values, palette=palette_colors, ax=ax)
 
     highest_season = season_counts.idxmax()

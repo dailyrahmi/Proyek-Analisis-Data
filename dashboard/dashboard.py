@@ -67,10 +67,8 @@ if menu == "Visualisasi Bike Sharing Day" and all_data_day is not None:
         plt.ylabel("Jumlah Peminjaman", fontsize=14)
         plt.xticks(rotation=45)
         st.pyplot(plt)
-        st.markdown("""
-        Dari visualisasi ini, kita dapat melihat tren penggunaan sepeda berdasarkan hari. 
-        Jumlah peminjaman sepeda cenderung lebih tinggi pada akhir pekan, yang menunjukkan peningkatan aktivitas rekreasi pada hari tersebut.
-        """)
+        st.markdown("""Dari visualisasi ini, kita dapat melihat tren penggunaan sepeda berdasarkan hari. 
+        Jumlah peminjaman sepeda cenderung lebih tinggi pada akhir pekan, yang menunjukkan peningkatan aktivitas rekreasi pada hari tersebut.""")
     else:
         st.error("Kolom 'weekday' tidak ditemukan pada dataset bike sharing day!")
 
@@ -83,10 +81,8 @@ if menu == "Visualisasi Bike Sharing Day" and all_data_day is not None:
         plt.xlabel("Musim", fontsize=14)
         plt.ylabel("Jumlah Peminjaman", fontsize=14)
         st.pyplot(plt)
-        st.markdown("""
-        Visualisasi ini menunjukkan distribusi penggunaan sepeda berdasarkan musim. 
-        Penggunaan sepeda cenderung lebih tinggi pada musim panas, sementara pada musim dingin menurun.
-        """)
+        st.markdown("""Visualisasi ini menunjukkan distribusi penggunaan sepeda berdasarkan musim. 
+        Penggunaan sepeda cenderung lebih tinggi pada musim panas, sementara pada musim dingin menurun.""")
     else:
         st.error("Kolom 'season' tidak ditemukan pada dataset bike sharing day!")
 
@@ -102,23 +98,18 @@ if menu == "Visualisasi Bike Sharing Hour" and all_data_hour is not None:
     plt.xlabel(column_name.capitalize(), fontsize=14)
     plt.ylabel("Jumlah Penggunaan", fontsize=14)
     st.pyplot(plt)
-    st.markdown(f"""
-    Visualisasi ini menunjukkan distribusi penggunaan sepeda berdasarkan {column_name}. 
+    st.markdown(f"""Visualisasi ini menunjukkan distribusi penggunaan sepeda berdasarkan {column_name}. 
     Anda dapat melihat pola penggunaan sepeda pada jam-jam tertentu. 
     Misalnya, penggunaan sepeda cenderung meningkat pada jam-jam sibuk, 
-    yang menunjukkan bahwa sepeda sering digunakan untuk perjalanan kerja dan kegiatan lainnya.
-    """)
+    yang menunjukkan bahwa sepeda sering digunakan untuk perjalanan kerja dan kegiatan lainnya.""")
 
 # Menambahkan analisis RFM jika dataset berhasil dimuat
 if menu == "Analisis RFM":
     st.subheader("Analisis RFM")
-    st.markdown("""
-    Analisis RFM (Recency, Frequency, Monetary) bertujuan untuk mengelompokkan pelanggan berdasarkan perilaku peminjaman mereka.
-
+    st.markdown("""Analisis RFM (Recency, Frequency, Monetary) bertujuan untuk mengelompokkan pelanggan berdasarkan perilaku peminjaman mereka.
     - **Recency:** Menghitung jumlah hari sejak terakhir kali pelanggan melakukan peminjaman.
     - **Frequency:** Menghitung jumlah total peminjaman yang dilakukan oleh pelanggan dalam periode tertentu.
-    - **Monetary:** Menghitung total pengeluaran pelanggan dalam periode tersebut.
-    """)
+    - **Monetary:** Menghitung total pengeluaran pelanggan dalam periode tersebut.""")
 
     # RFM analysis code (gunakan sample data untuk testing jika dataset tidak tersedia)
     if all_data_day is not None:
@@ -169,43 +160,18 @@ if menu == "Analisis RFM":
         rfm_df['RFM_Segment'] = rfm_df['R_score'].astype(str) + rfm_df['F_score'].astype(str) + rfm_df['M_score'].astype(str)
 
         # Menampilkan segmen RFM
-        st.write("RFM Segments:")
-        st.dataframe(rfm_df[['customer_id', 'recency', 'frequency', 'monetary', 'RFM_Segment']])
-    else:
-        st.error("Dataset tidak tersedia untuk analisis RFM!")
+        st.write("Segmentasi Pelanggan Berdasarkan Skor RFM:")
+        st.dataframe(rfm_df[['customer_id', 'RFM_Segment']])
 
-# Membuat header untuk analisis RFM (Recency, Frequency, Monetary)
-st.header('Analisis RFM')
-
-# Membuat dataframe penyewaan sepeda registered per hari
-def create_daily_registered_rent_df(df):
-    daily_registered_rent_df = df.groupby(by='dateday').agg({
-        'registered': 'sum'
-    }).reset_index()
-    return daily_registered_rent_df
-
-# Membuat dataframe penyewaan sepeda berdasarkan musim
-def create_season_rent_df(df):
-    season_rent_df = df.groupby(by='season')[['registered', 'casual']].sum().reset_index()
-    return season_rent_df
-
-daily_registered_rent_df = create_daily_registered_rent_df(filtered_df_day)
-season_rent_df = create_season_rent_df(filtered_df_day)
-
-# Menampilkan informasi tentang aplikasi
+# Tentang aplikasi
 if menu == "Tentang Aplikasi":
     st.subheader("Tentang Aplikasi")
-    st.markdown("""
-    Aplikasi ini merupakan dashboard analisis data penggunaan sepeda berdasarkan dataset bike sharing.
-    Tujuannya adalah untuk membantu memahami pola penggunaan sepeda berdasarkan waktu (hari dan jam).
-    
-    **Fitur Utama:**
-    - Visualisasi distribusi penggunaan sepeda berdasarkan hari dalam minggu dan musim.
-    - Tampilan interaktif dan mudah digunakan.
+    st.markdown("""Aplikasi ini dirancang untuk memberikan analisis mendalam tentang penggunaan sepeda berdasarkan dataset bike sharing. 
+    Melalui analisis ini, pengguna dapat memahami pola peminjaman sepeda dan faktor-faktor yang mempengaruhi keputusan peminjaman.
+    - Dataset yang digunakan: `day.csv` dan `hour.csv`
+    - Menggunakan Streamlit untuk antarmuka interaktif.
+    - Kembangkan analisis dan visualisasi sesuai kebutuhan.""")
 
-    Dibuat menggunakan `Streamlit`, `Pandas`, `Seaborn`, dan `Matplotlib`.
-    """)
-
-# Menambahkan footer dengan informasi tambahan
-st.markdown("<hr style='border: 1px solid #ddd;'>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>© 2024 Dashboard Analisis Data Bike Sharing. Dibuat untuk proyek analisis data.</p>", unsafe_allow_html=True)
+# Menambahkan footer
+st.markdown("---")
+st.markdown("<footer style='text-align: center;'><small>© 2024 Dashboard Analisis Data Bike Sharing. Semua hak dilindungi.</small></footer>", unsafe_allow_html=True)

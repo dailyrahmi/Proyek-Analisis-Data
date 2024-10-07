@@ -9,6 +9,24 @@ st.markdown("<h1 style='text-align: center; color: #4CAF50;'>Dashboard Analisis 
 st.markdown("<p style='text-align: center; font-size: 18px;'>Analisis data bike sharing untuk memahami pola penggunaan sepeda berdasarkan hari dan jam.</p>", unsafe_allow_html=True)
 st.write("---")
 
+# Menyaring dataset berdasarkan periode waktu yang dipilih
+def filter_data_by_date(df, start_date, end_date):
+    filtered_df = df[(df['date_day'] >= pd.to_datetime(start_date)) & (df['date_day'] <= pd.to_datetime(end_date))]
+    return filtered_df
+
+filtered_df_day = filter_data_by_date(df_day, start_date, end_date)
+
+
+# Mengambil informasi terkait penyewaan sepeda berdasarkan tanggal yang dipilih
+def get_rent_info(df):
+    total_rentals = df['total_count'].sum()
+    total_registered = df['registered'].sum()
+    total_casual = df['casual'].sum()
+    return total_rentals, total_registered, total_casual
+
+total_rentals, total_registered, total_casual = get_rent_info(filtered_df_day)
+
+
 # Memuat dataset pertama (bike sharing day)
 all_data_day = None
 try:
@@ -166,8 +184,8 @@ if menu == "Analisis RFM":
 # Membuat dataframe untuk analisis RFM
 def create_rfm_df(df):
     df['Recency'] = (df['date_day'].max() - df['date_day']).dt.days
-    frequency_df = df.groupby('date_day').agg({'count': 'sum'}).reset_index()
-    frequency_df.rename(columns={'count': 'Frequency'}, inplace=True)
+    frequency_df = df.groupby('dateday').agg({'count': 'sum'}).reset_index()
+    frequency_df.rename(columns={'total_count': 'Frequency'}, inplace=True)
     df['Monetary'] = df['registered'] + df['casual']
     rfm_df = df[['date_day', 'Recency', 'Monetary']].merge(frequency_df, on='date_day', how='left')
     return rfm_df

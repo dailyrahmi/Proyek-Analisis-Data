@@ -174,6 +174,24 @@ if menu == "Analisis RFM":
     else:
         st.error("Dataset tidak tersedia untuk analisis RFM!")
 
+# Membuat header untuk analisis RFM (Recency, Frequency, Monetary)
+st.header('Analisis RFM')
+
+# Membuat dataframe penyewaan sepeda registered per hari
+def create_daily_registered_rent_df(df):
+    daily_registered_rent_df = df.groupby(by='dateday').agg({
+        'registered': 'sum'
+    }).reset_index()
+    return daily_registered_rent_df
+
+# Membuat dataframe penyewaan sepeda berdasarkan musim
+def create_season_rent_df(df):
+    season_rent_df = df.groupby(by='season')[['registered', 'casual']].sum().reset_index()
+    return season_rent_df
+
+daily_registered_rent_df = create_daily_registered_rent_df(filtered_day_df)
+season_rent_df = create_season_rent_df(filtered_day_df)
+
 # Menampilkan informasi tentang aplikasi
 if menu == "Tentang Aplikasi":
     st.subheader("Tentang Aplikasi")

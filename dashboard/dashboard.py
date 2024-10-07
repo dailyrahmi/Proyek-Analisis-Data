@@ -152,9 +152,12 @@ if menu == "Analisis RFM":
             df['F_score'] = pd.cut(df['frequency'], bins=4, labels=False)
             df['M_score'] = pd.cut(df['monetary'], bins=4, labels=False)
             return df
+            
         # Memberikan skor RFM
         rfm_df = assign_rfm_scores(rfm_df)
-        
+
+        # Membuat Segmen RFM
+        rfm_df['RFM_Segment'] = rfm_df['R_score'].astype(str) + rfm_df['F_score'].astype(str) + rfm_df['M_score'].astype(str)
 
 
         

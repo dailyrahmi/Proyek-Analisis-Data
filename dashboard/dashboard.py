@@ -6,6 +6,9 @@ import streamlit as st
 # Mengatur style untuk seaborn
 sns.set(style='ticks')
 
+plt.figure(figsize=(12, 6), facecolor='lightgray')  # Mengatur latar belakang menjadi lightgray
+
+
 # Memuat dataset
 def load_data():
     df_day = pd.read_csv('data/data_day.csv')
@@ -43,7 +46,7 @@ def filter_data_by_date(df, start_date, end_date):
 filtered_day_df = filter_data_by_date(df_day, start_date, end_date)
 
 # Membuat judul utama halaman
-st.title('Bike Sharing Analysis 🚴')
+st.title('Bike Sharing Analysis Data 🚴')
 
 # Mengambil informasi terkait penyewaan sepeda berdasarkan tanggal yang dipilih
 def get_rent_info(df):

@@ -6,8 +6,6 @@ import streamlit as st
 # Mengatur style untuk seaborn
 sns.set(style='ticks')
 
-plt.figure(figsize=(12, 6), facecolor='lightgray')  # Mengatur latar belakang menjadi lightgray
-
 
 # Memuat dataset
 def load_data():

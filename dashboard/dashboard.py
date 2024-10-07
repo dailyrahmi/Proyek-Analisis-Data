@@ -56,19 +56,36 @@ if menu == "Tampilkan Data":
 # Visualisasi untuk dataset bike sharing day
 if menu == "Visualisasi Bike Sharing Day" and all_data_day is not None:
     st.subheader("Visualisasi Data Bike Sharing Day")
+    
+    # Visualisasi jumlah peminjaman berdasarkan hari dalam minggu
+    if 'weekday' in all_data_day.columns:
+        plt.figure(figsize=(12, 6))
+        sns.set_style("whitegrid")
+        sns.barplot(x='weekday', y='cnt', data=all_data_day, palette="viridis")
+        plt.title("Jumlah Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
+        plt.xlabel("Hari dalam Minggu", fontsize=14)
+        plt.ylabel("Jumlah Peminjaman", fontsize=14)
+        plt.xticks(rotation=45)
+        st.pyplot(plt)
+        st.markdown("""
+        Dari visualisasi ini, kita dapat melihat tren penggunaan sepeda berdasarkan hari. 
+        Jumlah peminjaman sepeda cenderung lebih tinggi pada akhir pekan, yang menunjukkan peningkatan aktivitas rekreasi pada hari tersebut.
+        """)
+    else:
+        st.error("Kolom 'weekday' tidak ditemukan pada dataset bike sharing day!")
+
+    # Visualisasi distribusi penggunaan berdasarkan musim
     if 'season' in all_data_day.columns:
         plt.figure(figsize=(12, 6))
         sns.set_style("whitegrid")
-        sns.countplot(data=all_data_day, x='season', palette="coolwarm")
+        sns.countplot(x='season', data=all_data_day, palette="coolwarm")
         plt.title("Distribusi Penggunaan Sepeda Berdasarkan Musim", fontsize=16)
         plt.xlabel("Musim", fontsize=14)
-        plt.ylabel("Jumlah Penggunaan", fontsize=14)
+        plt.ylabel("Jumlah Peminjaman", fontsize=14)
         st.pyplot(plt)
-        st.markdown(""" 
-        Dari visualisasi ini, terlihat bahwa penggunaan sepeda tertinggi terjadi pada musim panas. 
-        Hal ini mungkin disebabkan oleh cuaca yang lebih baik dan lebih banyak kegiatan luar ruangan. 
-        Sementara itu, penggunaan sepeda menurun pada musim dingin, yang menunjukkan bahwa kondisi cuaca 
-        memainkan peran penting dalam keputusan peminjaman sepeda.
+        st.markdown("""
+        Visualisasi ini menunjukkan distribusi penggunaan sepeda berdasarkan musim. 
+        Penggunaan sepeda cenderung lebih tinggi pada musim panas, sementara pada musim dingin menurun.
         """)
     else:
         st.error("Kolom 'season' tidak ditemukan pada dataset bike sharing day!")
@@ -165,8 +182,7 @@ if menu == "Tentang Aplikasi":
     Tujuannya adalah untuk membantu memahami pola penggunaan sepeda berdasarkan waktu (hari dan jam).
     
     **Fitur Utama:**
-    - Menampilkan data bike sharing day dan hour.
-    - Visualisasi distribusi penggunaan sepeda berdasarkan musim, jam, dan kategori lainnya.
+    - Visualisasi distribusi penggunaan sepeda berdasarkan hari dalam minggu dan musim.
     - Tampilan interaktif dan mudah digunakan.
 
     Dibuat menggunakan `Streamlit`, `Pandas`, `Seaborn`, dan `Matplotlib`.

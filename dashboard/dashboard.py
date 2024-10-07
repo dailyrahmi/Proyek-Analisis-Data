@@ -4,7 +4,7 @@ import seaborn as sns
 import streamlit as st
 
 # Mengatur style untuk seaborn
-sns.set(style='dark')
+sns.set(style='darkgrid')
 
 # Memuat dataset
 def load_data():
@@ -65,14 +65,13 @@ col1.metric(label="Total Penyewaan Sepeda", value=f"{total_rentals:,}")
 col2.metric(label="Pengguna Registered", value=f"{total_registered:,}")
 col3.metric(label="Pengguna Casual", value=f"{total_casual:,}")
 
-
 # Membuat header untuk visualisasi penggunaan sepeda per jam
 st.header('Distribusi Penggunaan Sepeda per Jam')
 
 # Membuat visualisasi distribusi penyewaan sepeda berdasarkan jam
 def plot_usage_by_hour(hour_df):
     plt.figure(figsize=(12, 6))
-    sns.barplot(x='hr', y='total_count', data=hour_df, palette='coolwarm', ci=None)
+    sns.barplot(x='hr', y='total_count', data=hour_df, palette='magma', ci=None)  # Menggunakan palet magma
     plt.title('Distribusi Jumlah Pengguna Sepeda per Jam', fontsize=16)
     plt.xlabel('Jam (dalam 24 jam)', fontsize=14)
     plt.ylabel('Jumlah Pengguna (per jam)', fontsize=14)
@@ -84,12 +83,13 @@ def plot_usage_by_hour(hour_df):
 plot_usage_by_hour(df_hour)
 
 st.header('Perbandingan Pengguna Casual vs Registered')
+
 def plot_user_type_comparison(df):
     total_users = df.groupby(by='year').agg({'registered': 'sum', 'casual': 'sum'}).reset_index()
     total_users = pd.melt(total_users, id_vars='year', value_vars=['registered', 'casual'], var_name='User Type', value_name='Count')
 
     plt.figure(figsize=(10, 6))
-    sns.barplot(x='year', y='Count', hue='User Type', data=total_users, palette='pastel')
+    sns.barplot(x='year', y='Count', hue='User Type', data=total_users, palette='Set2')  # Menggunakan palet Set2
     plt.title('Total Pengguna Registered dan Casual per Tahun', fontsize=16)
     plt.xlabel('Tahun', fontsize=14)
     plt.ylabel('Jumlah Pengguna', fontsize=14)
@@ -102,11 +102,12 @@ def plot_user_type_comparison(df):
 plot_user_type_comparison(df_day)
 
 st.header('Trend Penyewaan Sepeda')
+
 def plot_monthly_rentals(df):
     monthly_rentals = df.groupby(['year', 'month'])['total_count'].sum().reset_index()
     monthly_rentals['month'] = pd.Categorical(monthly_rentals['month'], categories=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ordered=True)
     plt.figure(figsize=(10, 6))
-    custom_palette = ['#ffd7d7', '#1f77b4']
+    custom_palette = ['#1f77b4', '#ff7f0e']  # Menambahkan warna yang lebih kontras
     sns.lineplot(x='month', y='total_count', hue='year', data=monthly_rentals, marker='o', palette=custom_palette)
     plt.title('Jumlah Total Sepeda yang Disewakan Berdasarkan Bulan dan Tahun', fontsize=16)
     plt.xlabel('Bulan', fontsize=14)
@@ -119,15 +120,16 @@ def plot_monthly_rentals(df):
 plot_monthly_rentals(df_day)
 
 st.header('Penyewaan Sepeda Berdasarkan Musim')
+
 def plot_season_rentals(df):
     season_counts = df.groupby('season')['total_count'].sum().sort_values(ascending=False)
     fig, ax = plt.subplots(figsize=(10, 6))
-    palette_colors = ['#ff6666', '#ff9999', '#ff9999', '#ff9999']
+    palette_colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']  # Palet warna yang berbeda
     bars = sns.barplot(x=season_counts.index, y=season_counts.values, palette=palette_colors, ax=ax)
     highest_season = season_counts.idxmax()
     for i, bar in enumerate(bars.patches):
         if season_counts.index[i] == highest_season:
-            bar.set_facecolor('#ff4c4c')
+            bar.set_facecolor('#ff4c4c')  # Warna berbeda untuk musim tertinggi
     ax.set_title('Distribusi Penyewaan Sepeda Berdasarkan Musim', fontsize=16)
     ax.set_xlabel('Musim', fontsize=14)
     ax.set_ylabel('Jumlah Penyewaan', fontsize=14)

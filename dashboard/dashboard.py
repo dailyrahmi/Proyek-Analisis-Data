@@ -159,6 +159,14 @@ if menu == "Analisis RFM":
         # Membuat Segmen RFM
         rfm_df['RFM_Segment'] = rfm_df['R_score'].astype(str) + rfm_df['F_score'].astype(str) + rfm_df['M_score'].astype(str)
 
+        # Menampilkan segmen RFM
+        st.write("RFM Segments:")
+        st.dataframe(rfm_df[['customer_id', 'recency', 'frequency', 'monetary', 'RFM_Segment']])
+    else:
+        st.error("Dataset tidak tersedia untuk analisis RFM!")
+
+
+
 
         
 # Tentang aplikasi

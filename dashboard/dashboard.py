@@ -189,8 +189,8 @@ def create_season_rent_df(df):
     season_rent_df = df.groupby(by='season')[['registered', 'casual']].sum().reset_index()
     return season_rent_df
 
-daily_registered_rent_df = create_daily_registered_rent_df(filtered_day_df)
-season_rent_df = create_season_rent_df(filtered_day_df)
+daily_registered_rent_df = create_daily_registered_rent_df(filtered_df_day)
+season_rent_df = create_season_rent_df(filtered_df_day)
 
 # Menampilkan informasi tentang aplikasi
 if menu == "Tentang Aplikasi":

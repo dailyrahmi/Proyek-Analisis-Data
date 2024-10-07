@@ -153,32 +153,7 @@ if menu == "Analisis RFM":
             df['M_score'] = pd.cut(df['monetary'], bins=4, labels=False)
             return df
 
-        # Memberikan skor RFM
-        rfm_df = assign_rfm_scores(rfm_df)
-
-        # Membuat Segmen RFM
-        rfm_df['RFM_Segment'] = rfm_df['R_score'].astype(str) + rfm_df['F_score'].astype(str) + rfm_df['M_score'].astype(str)
-
-        # Menampilkan segmen RFM
-        st.write("Segmentasi Pelanggan Berdasarkan Skor RFM:")
-        st.dataframe(rfm_df[['customer_id', 'RFM_Segment']])
-        # Pastikan DataFrame df_day terdefinisi dan memiliki kolom yang benar
-
-        # Cek kolom
-        st.write(df_day.columns)
         
-        # Mengubah tipe data jika perlu
-        df_day['date_day'] = pd.to_datetime(df_day['date_day'])
-        
-        # Menghitung metrik RFM
-        tanggal_referensi = df_day['date_day'].max()  # Pastikan menggunakan nama kolom yang benar
-        df_day['Rentang_Hari'] = (tanggal_referensi - df_day['date_day']).dt.days
-        
-        # Menghitung Frequency
-        frekuensi_penggunaan = df_day.groupby('date_day')['total_count'].sum().reset_index()
-        frekuensi_penggunaan.columns = ['date_day', 'Frekuensi']
-        
-
 
 
         

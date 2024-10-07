@@ -4,7 +4,7 @@ import seaborn as sns
 import streamlit as st
 
 # Mengatur style untuk seaborn
-sns.set(style='whitegrid')
+sns.set(style='ticks')
 
 # Memuat dataset
 def load_data():

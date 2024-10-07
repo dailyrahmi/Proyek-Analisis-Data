@@ -100,6 +100,53 @@ def perform_rfm_analysis(df):
 rfm_df = perform_rfm_analysis(df_day)
 st.dataframe(rfm_df.head())  # Menampilkan lima baris pertama hasil analisis RFM
 
+# Menghitung metrik RFM (Recency, Frequency, Monetary)
+tanggal_referensi = df_day['date_day'].max()
+df_day['Rentang_Hari'] = (tanggal_referensi - df_day['date_day']).dt.days
+
+# Menghitung Frequency
+frekuensi_penggunaan = df_day.groupby('date_day')['total_count'].sum().reset_index()
+frekuensi_penggunaan.columns = ['date_day', 'Frekuensi']
+
+# Menghitung Monetary
+moneter_pengguna = df_day.groupby('date_day')['registered'].sum().reset_index()
+moneter_pengguna.columns = ['date_day', 'Nilai_Moneter']
+
+# Menggabungkan ketiga metrik RFM menjadi satu DataFrame
+rfm_df = df_day[['date_day', 'Rentang_Hari']].merge(frekuensi_penggunaan, on='date_day', how='left').merge(moneter_pengguna, on='date_day', how='left')
+
+# Visualisasi Hari Terbaik Berdasarkan Metrik RFM
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
+
+# Membuat plot untuk Recency dengan warna palet khusus
+sns.barplot(y="Rentang_Hari", x="date_day", data=rfm_df.sort_values(by="Rentang_Hari").head(5), palette=["#FF6F61"], ax=ax[0])
+ax[0].set_ylabel("Rentang Hari", fontsize=14)
+ax[0].set_xlabel("Tanggal", fontsize=14)
+ax[0].set_title("Recency (dalam hari)", fontsize=18)
+ax[0].tick_params(axis='x', labelsize=12, rotation=45)
+
+# Membuat plot untuk Frequency dengan warna palet berbeda
+sns.barplot(y="Frekuensi", x="date_day", data=rfm_df.sort_values(by="Frekuensi", ascending=False).head(5), palette=["#6B5B95"], ax=ax[1])
+ax[1].set_ylabel("Frekuensi Peminjaman", fontsize=14)
+ax[1].set_xlabel("Tanggal", fontsize=14)
+ax[1].set_title("Frekuensi Peminjaman", fontsize=18)
+ax[1].tick_params(axis='x', labelsize=12, rotation=45)
+
+# Membuat plot untuk Monetary dengan warna palet berbeda
+sns.barplot(y="Nilai_Moneter", x="date_day", data=rfm_df.sort_values(by="Nilai_Moneter", ascending=False).head(5), palette=["#88B04B"], ax=ax[2])
+ax[2].set_ylabel("Nilai Moneter", fontsize=14)
+ax[2].set_xlabel("Tanggal", fontsize=14)
+ax[2].set_title("Nilai Moneter", fontsize=18)
+ax[2].tick_params(axis='x', labelsize=12, rotation=45)
+
+# Menambahkan judul utama untuk keseluruhan grafik
+plt.suptitle("Analisis Hari Terbaik Berdasarkan Metrik RFM (Tanggal)", fontsize=20)
+
+# Menampilkan grafik
+plt.show()
+
+
+
 # Membuat header untuk visualisasi penggunaan sepeda per jam
 st.header('Distribusi Penggunaan Sepeda per Jam')
 

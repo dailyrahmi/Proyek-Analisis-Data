@@ -172,7 +172,7 @@ def create_rfm_df(df):
     rfm_df = df[['date_day', 'Recency', 'Monetary']].merge(frequency_df, on='date_day', how='left')
     return rfm_df
 
-rfm_df = create_rfm_df(filtered_day_df)
+rfm_df = create_rfm_df(filtered_df_day)
 
 # Membuat visualisasi untuk Recency, Frequency, dan Monetary
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))

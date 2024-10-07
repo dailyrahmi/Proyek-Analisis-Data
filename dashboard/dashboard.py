@@ -26,8 +26,12 @@ def prepare_date_column(df):
 
 df_day = prepare_date_column(df_day)
 
+# Menambahkan kolom 'user_id' jika tidak ada
+if 'user_id' not in df_day.columns:
+    df_day['user_id'] = range(1, len(df_day) + 1)
+
 with st.sidebar:
-    st.image("https://raw.githubusercontent.com/dailyrahmi/Proyek-Analisis-Data/main/assets/bike.png")
+    st.image("https://raw.githubusercontent.com/dailyrahmi/Proyek-Analisis-Data/main/assets/bike2.png")
 
 # Sidebar untuk pemilihan periode waktu
 st.sidebar.title('🗓️ Pilih Periode Waktu')
@@ -93,11 +97,8 @@ def perform_rfm_analysis(df):
     return rfm_df
 
 # Melakukan analisis RFM pada data
-if 'user_id' in df_day.columns:
-    rfm_df = perform_rfm_analysis(df_day)
-    st.dataframe(rfm_df.head())  # Menampilkan lima baris pertama hasil analisis RFM
-else:
-    st.warning("Kolom 'user_id' tidak ditemukan dalam dataset. Analisis RFM tidak dapat dilakukan.")
+rfm_df = perform_rfm_analysis(df_day)
+st.dataframe(rfm_df.head())  # Menampilkan lima baris pertama hasil analisis RFM
 
 # Membuat header untuk visualisasi penggunaan sepeda per jam
 st.header('Distribusi Penggunaan Sepeda per Jam')

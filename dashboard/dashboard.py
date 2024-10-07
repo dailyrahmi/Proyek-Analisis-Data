@@ -27,8 +27,7 @@ def prepare_date_column(df):
 df_day = prepare_date_column(df_day)
 
 with st.sidebar:
-    # Menambahkan gambar di sidebar
-    st.image("https://raw.githubusercontent.com/GhefiraZahraNurFadhilah/ProyekAnalisisDataDicoding/main/assets/bike.jpg")
+    st.image("https://raw.githubusercontent.com/dailyrahmi/Proyek-Analisis-Data/main/assets/bike.png")
 
 # Sidebar untuk pemilihan periode waktu
 st.sidebar.title('🗓️ Pilih Periode Waktu')
@@ -62,9 +61,43 @@ col1.metric(label="Total Penyewaan Sepeda", value=f"{total_rentals:,}")
 col2.metric(label="Pengguna Registered", value=f"{total_registered:,}")
 col3.metric(label="Pengguna Casual", value=f"{total_casual:,}")
 
-# Memberikan spasi tambahan antar elemen visual
-st.write("")
-st.write("")
+# Menampilkan analisis RFM
+st.header('Analisis RFM')
+
+# Analisis Recency
+def calculate_recency(df):
+    most_recent_date = df['date_day'].max()
+    recency_df = df.groupby('user_id')['date_day'].max().reset_index()
+    recency_df['recency'] = (most_recent_date - recency_df['date_day']).dt.days
+    return recency_df[['user_id', 'recency']]
+
+# Analisis Frequency
+def calculate_frequency(df):
+    frequency_df = df.groupby('user_id')['date_day'].count().reset_index()
+    frequency_df.columns = ['user_id', 'frequency']
+    return frequency_df
+
+# Analisis Monetary
+def calculate_monetary(df):
+    monetary_df = df.groupby('user_id')['total_count'].sum().reset_index()
+    monetary_df.columns = ['user_id', 'monetary']
+    return monetary_df
+
+# Menggabungkan hasil analisis RFM
+def perform_rfm_analysis(df):
+    recency_df = calculate_recency(df)
+    frequency_df = calculate_frequency(df)
+    monetary_df = calculate_monetary(df)
+
+    rfm_df = recency_df.merge(frequency_df, on='user_id').merge(monetary_df, on='user_id')
+    return rfm_df
+
+# Melakukan analisis RFM pada data
+if 'user_id' in df_day.columns:
+    rfm_df = perform_rfm_analysis(df_day)
+    st.dataframe(rfm_df.head())  # Menampilkan lima baris pertama hasil analisis RFM
+else:
+    st.warning("Kolom 'user_id' tidak ditemukan dalam dataset. Analisis RFM tidak dapat dilakukan.")
 
 # Membuat header untuk visualisasi penggunaan sepeda per jam
 st.header('Distribusi Penggunaan Sepeda per Jam')
@@ -83,14 +116,7 @@ def plot_usage_by_hour(hour_df):
 
 plot_usage_by_hour(df_hour)
 
-# Memberikan spasi tambahan antar elemen visual
-st.write("")
-st.write("")
-
-# Membuat header untuk visualisasi perbandingan pengguna registered dan casual
 st.header('Perbandingan Pengguna Casual vs Registered')
-
-# Membuat visualisasi perbandingan jumlah pengguna casual dan registered per tahun
 def plot_user_type_comparison(df):
     total_users = df.groupby(by='year').agg({'registered': 'sum', 'casual': 'sum'}).reset_index()
     total_users = pd.melt(total_users, id_vars='year', value_vars=['registered', 'casual'], var_name='User Type', value_name='Count')
@@ -108,25 +134,13 @@ def plot_user_type_comparison(df):
 
 plot_user_type_comparison(df_day)
 
-# Memberikan spasi tambahan antar elemen visual
-st.write("")
-st.write("")
-
-# Membuat header untuk visualisasi tren penyewaan sepeda
 st.header('Trend Penyewaan Sepeda')
-
-# Membuat visualisasi tren penyewaan sepeda berdasarkan bulan dan tahun
 def plot_monthly_rentals(df):
     monthly_rentals = df.groupby(['year', 'month'])['total_count'].sum().reset_index()
-
-    # Mengatur urutan bulan agar visualisasi lebih rapi
     monthly_rentals['month'] = pd.Categorical(monthly_rentals['month'], categories=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ordered=True)
     plt.figure(figsize=(10, 6))
-
-    # Membuat lineplot untuk menunjukkan tren penyewaan berdasarkan bulan dan tahun
     custom_palette = ['#ffd7d7', '#1f77b4']
     sns.lineplot(x='month', y='total_count', hue='year', data=monthly_rentals, marker='o', palette=custom_palette)
-
     plt.title('Jumlah Total Sepeda yang Disewakan Berdasarkan Bulan dan Tahun', fontsize=16)
     plt.xlabel('Bulan', fontsize=14)
     plt.ylabel('Jumlah Penyewaan', fontsize=14)
@@ -137,26 +151,16 @@ def plot_monthly_rentals(df):
 
 plot_monthly_rentals(df_day)
 
-# Memberikan spasi tambahan antar elemen visual
-st.write("")
-st.write("")
-
-# Membuat header untuk visualisasi penyewaan sepeda berdasarkan musim
 st.header('Penyewaan Sepeda Berdasarkan Musim')
-
-# Membuat visualisasi distribusi penyewaan sepeda berdasarkan musim
 def plot_season_rentals(df):
     season_counts = df.groupby('season')['total_count'].sum().sort_values(ascending=False)
-
     fig, ax = plt.subplots(figsize=(10, 6))
     palette_colors = ['#ff6666', '#ff9999', '#ff9999', '#ff9999']
     bars = sns.barplot(x=season_counts.index, y=season_counts.values, palette=palette_colors, ax=ax)
-
     highest_season = season_counts.idxmax()
     for i, bar in enumerate(bars.patches):
         if season_counts.index[i] == highest_season:
             bar.set_facecolor('#ff4c4c')
-
     ax.set_title('Distribusi Penyewaan Sepeda Berdasarkan Musim', fontsize=16)
     ax.set_xlabel('Musim', fontsize=14)
     ax.set_ylabel('Jumlah Penyewaan', fontsize=14)

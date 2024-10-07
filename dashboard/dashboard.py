@@ -4,7 +4,7 @@ import seaborn as sns
 import streamlit as st
 
 # Mengatur style untuk seaborn
-sns.set(style='dark')
+sns.set(style='darkgrid')
 
 # Memuat dataset
 def load_data():
@@ -205,7 +205,7 @@ rfm_df = create_rfm_df(filtered_day_df)
 
 # Membuat visualisasi untuk Recency, Frequency, dan Monetary
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
-colors = ["#72BCD4"] * 5
+colors = ["#FF6347"] * 5
 
 sns.barplot(y="Recency", x="date_day", data=rfm_df.sort_values(by="Recency", ascending=True).head(5), palette=colors, ax=ax[0])
 ax[0].set_title("Recency", loc="center", fontsize=18)

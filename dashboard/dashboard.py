@@ -112,6 +112,30 @@ plot_user_type_comparison(df_day)
 st.write("")
 st.write("")
 
+
+# Membuat header untuk visualisasi distribusi peminjaman sepeda berdasarkan hari dalam minggu
+st.header('Distribusi Jumlah Peminjaman Sepeda Sepanjang Minggu')
+
+# Filter dataset untuk hanya mengambil kolom yang diperlukan
+filtered_day_df['weekday'] = filtered_day_df['date_day'].dt.day_name()  # Menambahkan kolom 'weekday' dari 'date_day'
+
+# Membuat visualisasi distribusi peminjaman berdasarkan hari dalam minggu
+def plot_weekday_distribution(df):
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x='weekday', y='total_count', data=df, ci=None, palette='viridis')
+    plt.title("Jumlah Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
+    plt.xlabel("Hari dalam Minggu", fontsize=14)
+    plt.ylabel("Jumlah Peminjaman", fontsize=14)
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    st.pyplot(plt)
+
+plot_weekday_distribution(filtered_day_df)
+
+# Memberikan spasi tambahan antar elemen visual
+st.write("")
+st.write("")
+
 # Header untuk visualisasi tren peminjaman berdasarkan hari dalam minggu
 st.header('Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu')
 

@@ -112,37 +112,28 @@ plot_user_type_comparison(df_day)
 st.write("")
 st.write("")
 
-# Membuat header untuk visualisasi tren penyewaan sepeda
-st.header('Trend Penyewaan Sepeda')
+# Header untuk visualisasi tren peminjaman berdasarkan hari dalam minggu
+st.header('Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu')
 
-# Membuat visualisasi tren penyewaan sepeda berdasarkan bulan dan tahun
-def plot_monthly_rentals(df):
-    monthly_rentals = df.groupby(['year', 'month'])['total_count'].sum().reset_index()
-
-    # Mengatur urutan bulan agar visualisasi lebih rapi
-    monthly_rentals['month'] = pd.Categorical(monthly_rentals['month'], categories=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ordered=True)
-    plt.figure(figsize=(10, 6))
-
-    # Membuat lineplot untuk menunjukkan tren penyewaan berdasarkan bulan dan tahun
-    custom_palette = ['#ffd7d7', '#1f77b4']
-    sns.lineplot(x='month', y='total_count', hue='year', data=monthly_rentals, marker='o', palette=custom_palette)
-
-    plt.title('Jumlah Total Sepeda yang Disewakan Berdasarkan Bulan dan Tahun', fontsize=16)
-    plt.xlabel('Bulan', fontsize=14)
-    plt.ylabel('Jumlah Penyewaan', fontsize=14)
-    plt.grid(True)
-    plt.legend(title='Tahun', loc='upper right')
-    plt.tight_layout()
+# Membuat visualisasi tren peminjaman sepeda berdasarkan hari dalam minggu
+def plot_weekday_trend(df):
+    plt.figure(figsize=(10, 5))
+    sns.countplot(x='weekday', data=df, palette='viridis')
+    plt.title("Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
+    plt.xlabel("Hari dalam Minggu", fontsize=14)
+    plt.ylabel("Jumlah Peminjaman", fontsize=14)
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(plt)
 
-plot_monthly_rentals(df_day)
+# Memanggil fungsi plot_weekday_trend dan menampilkan hasilnya di dashboard
+plot_weekday_trend(df_cleaned)
 
 # Memberikan spasi tambahan antar elemen visual
 st.write("")
 st.write("")
 
-# Membuat header untuk visualisasi penyewaan sepeda berdasarkan musim
-st.header('Penyewaan Sepeda Berdasarkan Musim')
+
 
 # Membuat header untuk visualisasi distribusi peminjaman sepeda berdasarkan hari dalam minggu
 st.header('Distribusi Jumlah Peminjaman Sepeda Sepanjang Minggu')

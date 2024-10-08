@@ -67,6 +67,30 @@ st.write("")
 st.write("")
 
 
+# Membuat header untuk visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
+st.header('Visualisasi Pengaruh Suhu dan Kelembapan Terhadap Jumlah Peminjaman')
+
+# Membuat visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
+def plot_temperature_humidity_effect(df):
+    plt.figure(figsize=(10, 5))
+    scatter = sns.scatterplot(x='temp', y='total_count', hue='humidity_level', data=df, palette='viridis', alpha=0.7)
+    plt.title("Pengaruh Suhu dan Kelembapan terhadap Jumlah Peminjaman Sepeda", fontsize=16)
+    plt.xlabel("Suhu (°C)", fontsize=14)
+    plt.ylabel("Jumlah Peminjaman", fontsize=14)
+
+    # Menambahkan colorbar untuk menunjukkan kelembapan
+    norm = plt.Normalize(df['humidity_level'].min(), df['humidity_level'].max())
+    sm = plt.cm.ScalarMappable(cmap='viridis', norm=norm)
+    sm.set_array([])  # Set array untuk mappable
+    cbar = plt.colorbar(sm)
+    cbar.set_label('Kelembapan (%)')
+
+    plt.grid(True)
+    plt.tight_layout()
+    st.pyplot(plt)
+
+# Memanggil fungsi untuk membuat visualisasi
+plot_temperature_humidity_effect(df_cleaned)
 
 
 # Memberikan spasi tambahan antar elemen visual

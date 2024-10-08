@@ -136,6 +136,54 @@ plot_weekday_distribution(filtered_day_df)
 st.write("")
 st.write("")
 
+
+# Membuat header untuk analisis RFM (Recency, Frequency, Monetary)
+st.header('Analisis RFM')
+
+# Membuat dataframe penyewaan sepeda registered per hari
+def create_daily_registered_rent_df(df):
+    daily_registered_rent_df = df.groupby(by='date_day').agg({
+        'registered': 'sum'
+    }).reset_index()
+    return daily_registered_rent_df
+
+# Membuat dataframe penyewaan sepeda berdasarkan musim
+def create_season_rent_df(df):
+    season_rent_df = df.groupby(by='season')[['registered', 'casual']].sum().reset_index()
+    return season_rent_df
+
+daily_registered_rent_df = create_daily_registered_rent_df(filtered_day_df)
+season_rent_df = create_season_rent_df(filtered_day_df)
+
+# Membuat dataframe untuk analisis RFM
+def create_rfm_df(df):
+    df['Recency'] = (df['date_day'].max() - df['date_day']).dt.days
+    frequency_df = df.groupby('date_day').agg({'total_count': 'sum'}).reset_index()
+    frequency_df.rename(columns={'total_count': 'Frequency'}, inplace=True)
+    df['Monetary'] = df['registered'] + df['casual']
+    rfm_df = df[['date_day', 'Recency', 'Monetary']].merge(frequency_df, on='date_day', how='left')
+    return rfm_df
+
+rfm_df = create_rfm_df(filtered_day_df)
+
+# Membuat visualisasi untuk Recency, Frequency, dan Monetary
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
+colors = ["#FF6347"] * 5
+
+sns.barplot(y="Recency", x="date_day", data=rfm_df.sort_values(by="Recency", ascending=True).head(5), palette=colors, ax=ax[0])
+ax[0].set_title("Recency", loc="center", fontsize=18)
+sns.barplot(y="Frequency", x="date_day", data=rfm_df.sort_values(by="Frequency", ascending=False).head(5), palette=colors, ax=ax[1])
+ax[1].set_title("Frequency", loc="center", fontsize=18)
+sns.barplot(y="Monetary", x="date_day", data=rfm_df.sort_values(by="Monetary", ascending=False).head(5), palette=colors, ax=ax[2])
+ax[2].set_title("Monetary", loc="center", fontsize=18)
+
+st.pyplot(fig)
+
+# Memberikan spasi tambahan antar elemen visual
+st.write("")
+st.write("")
+
+
 # Header untuk visualisasi tren peminjaman berdasarkan hari dalam minggu
 st.header('Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu')
 

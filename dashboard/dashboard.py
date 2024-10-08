@@ -73,7 +73,7 @@ st.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda")
 
 # Visualisasi pengaruh suhu terhadap jumlah peminjaman
 plt.figure(figsize=(10, 5))
-sns.scatterplot(x='temp', y='total_count', data=df , alpha=0.7)
+sns.scatterplot(x='temp', y='total_count', data=df_day , alpha=0.7)
 plt.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda", fontsize=16)
 plt.xlabel("Suhu (°C)", fontsize=14)
 plt.ylabel("Jumlah Peminjaman", fontsize=14)

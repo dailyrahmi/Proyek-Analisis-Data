@@ -87,26 +87,22 @@ plot_usage_by_hour(df_hour)
 st.write("")
 st.write("")
 
-# Membuat header untuk visualisasi perbandingan pengguna registered dan casual
-st.header('Perbandingan Pengguna Casual vs Registered')
+# Header untuk visualisasi tren peminjaman berdasarkan hari dalam minggu
+st.header('Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu')
 
-# Membuat visualisasi perbandingan jumlah pengguna casual dan registered per tahun
-def plot_user_type_comparison(df):
-    total_users = df.groupby(by='year').agg({'registered': 'sum', 'casual': 'sum'}).reset_index()
-    total_users = pd.melt(total_users, id_vars='year', value_vars=['registered', 'casual'], var_name='User Type', value_name='Count')
-
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='year', y='Count', hue='User Type', data=total_users, palette='pastel')
-    plt.title('Total Pengguna Registered dan Casual per Tahun', fontsize=16)
-    plt.xlabel('Tahun', fontsize=14)
-    plt.ylabel('Jumlah Pengguna', fontsize=14)
-    plt.legend(title='Tipe Pengguna')
-    plt.grid(axis='y')
-    plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
-    plt.tight_layout()
+# Membuat visualisasi tren peminjaman sepeda berdasarkan hari dalam minggu
+def plot_weekday_trend(df):
+    plt.figure(figsize=(10, 5))
+    sns.countplot(x='weekday', data=df, palette='viridis')
+    plt.title("Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
+    plt.xlabel("Hari dalam Minggu", fontsize=14)
+    plt.ylabel("Jumlah Peminjaman", fontsize=14)
+    plt.xticks(rotation=45)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
     st.pyplot(plt)
 
-plot_user_type_comparison(df_day)
+# Memanggil fungsi plot_weekday_trend dan menampilkan hasilnya di dashboard
+plot_weekday_trend(df_cleaned)
 
 # Memberikan spasi tambahan antar elemen visual
 st.write("")

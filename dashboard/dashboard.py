@@ -70,6 +70,10 @@ st.write("")
 # Membuat header untuk visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
 st.header('Visualisasi Pengaruh Suhu dan Kelembapan Terhadap Jumlah Peminjaman')
 
+# Cek apakah dataset dimuat dengan benar
+df_cleaned = load_data()
+st.write(df_cleaned.head())  # Menampilkan beberapa baris pertama untuk verifikasi
+
 # Membuat visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
 def plot_temperature_humidity_effect(df):
     plt.figure(figsize=(10, 5))

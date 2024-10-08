@@ -67,33 +67,7 @@ st.write("")
 st.write("")
 
 
-# Header untuk visualisasi pengaruh suhu dan kelembapan
-st.header('Pengaruh Suhu dan Kelembapan terhadap Jumlah Peminjaman Sepeda')
 
-# Fungsi untuk menampilkan scatter plot di Streamlit
-def plot_temp_humidity_effect(df):
-    plt.figure(figsize=(10, 5))
-
-    # Membuat scatter plot dengan warna berdasarkan level kelembapan
-    scatter = sns.scatterplot(x='temp', y='total_count', hue='humidity_level', data=df, palette='viridis')
-    plt.title("Pengaruh Suhu dan Kelembapan terhadap Jumlah Peminjaman Sepeda", fontsize=16)
-    plt.xlabel("Suhu", fontsize=14)
-    plt.ylabel("Jumlah Peminjaman", fontsize=14)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-
-    # Menambahkan colorbar untuk menunjukkan kelembapan
-    norm = plt.Normalize(df['humidity_level'].min(), df['humidity_level'].max())
-    sm = plt.cm.ScalarMappable(cmap='viridis', norm=norm)
-    sm.set_array([])
-    cbar = plt.colorbar(sm)
-    cbar.set_label('Kelembapan')
-
-    # Menampilkan plot di Streamlit
-    st.pyplot(plt)
-    plt.close()  # Menutup plt untuk mencegah duplikasi visualisasi
-
-# Memanggil fungsi untuk menampilkan hasil scatter plot di dashboard
-plot_temp_humidity_effect(df_cleaned)
 
 # Memberikan spasi tambahan antar elemen visual
 st.write("")

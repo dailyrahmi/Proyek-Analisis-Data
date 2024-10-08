@@ -149,6 +149,44 @@ plot_weekday_distribution(filtered_day_df)
 st.write("")
 st.write("")
 
+# Membuat header untuk Visualisasi pengaruh rentang waktu sewa terhadap jumlah peminjaman
+st.header('Visualisasi Pengaruh Rentang Waktu Sewa Terhadap Jumlah Peminjaman')
+
+# Visualisasi pengaruh rentang waktu sewa terhadap jumlah peminjaman
+plt.figure(figsize=(10, 5))
+sns.boxplot(x='hr', y='total_count', data=df_hour)
+plt.title("Pengaruh Rentang Waktu Sewa Sepeda terhadap Jumlah Peminjaman", fontsize=16)
+plt.xlabel("Rentang Waktu Sewa (menit)", fontsize=14)
+plt.ylabel("Jumlah Peminjaman", fontsize=14)
+
+# Menampilkan plot di Streamlit
+st.pyplot(plt)
+
+
+# Memberikan spasi tambahan antar elemen visual
+st.write("")
+st.write("")
+
+# Membuat header untuk Visualisasi tren peminjaman berdasarkan kategori cuaca
+st.header('Visualisasi Tren Peminjaman Berdasarkan Kategori Cuaca')
+
+# Visualisasi tren peminjaman berdasarkan kategori cuaca
+plt.figure(figsize=(10, 5))
+sns.countplot(x='weathersit', data=df_day)
+plt.title("Tren Peminjaman Sepeda berdasarkan Kategori Cuaca", fontsize=16)
+plt.xlabel("Kategori Cuaca", fontsize=14)
+plt.ylabel("Jumlah Peminjaman", fontsize=14)
+plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
+
+# Menampilkan plot di Streamlit
+st.pyplot(plt)
+
+
+
+# Memberikan spasi tambahan antar elemen visual
+st.write("")
+st.write("")
+
 
 # Membuat header untuk analisis RFM (Recency, Frequency, Monetary)
 st.header('Analisis RFM')

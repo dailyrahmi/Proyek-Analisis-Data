@@ -134,13 +134,6 @@ st.write("")
 st.write("")
 
 
-
-# Membuat header untuk visualisasi distribusi peminjaman sepeda berdasarkan hari dalam minggu
-st.header('Distribusi Jumlah Peminjaman Sepeda Sepanjang Minggu')
-
-# Filter dataset untuk hanya mengambil kolom yang diperlukan
-filtered_day_df['weekday'] = filtered_day_df['date_day'].dt.day_name()  # Menambahkan kolom 'weekday' dari 'date_day'
-
 # Membuat visualisasi distribusi peminjaman berdasarkan hari dalam minggu
 def plot_weekday_distribution(df):
     plt.figure(figsize=(12, 6))

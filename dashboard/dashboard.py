@@ -71,17 +71,15 @@ st.write("")
 # Menampilkan judul di dashboard
 st.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda")
 
-# Visualisasi pengaruh suhu
+# Visualisasi pengaruh suhu terhadap jumlah peminjaman
 plt.figure(figsize=(10, 5))
-sns.barplot(x='temp', y='total_count', data=df_cleaned, palette='coolwarm', ci=None)
+sns.scatterplot(x='temp', y='total_count', data=df, alpha=0.7)
 plt.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda", fontsize=16)
 plt.xlabel("Suhu (°C)", fontsize=14)
 plt.ylabel("Jumlah Peminjaman", fontsize=14)
-plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
 
 # Menampilkan grafik di Streamlit
 st.pyplot(plt)
-
 
 # Memberikan spasi tambahan antar elemen visual
 st.write("")

@@ -144,30 +144,24 @@ st.write("")
 # Membuat header untuk visualisasi penyewaan sepeda berdasarkan musim
 st.header('Penyewaan Sepeda Berdasarkan Musim')
 
-# Membuat visualisasi distribusi penyewaan sepeda berdasarkan musim
-def plot_season_rentals(df):
-    season_counts = df.groupby('season')['total_count'].sum().sort_values(ascending=False)
+# Membuat header untuk visualisasi distribusi peminjaman sepeda berdasarkan hari dalam minggu
+st.header('Distribusi Jumlah Peminjaman Sepeda Sepanjang Minggu')
 
-    fig, ax = plt.subplots(figsize=(10, 6))
-    palette_colors = ['#ff6666', '#ff9999', '#66ff66', '#6699ff']
-    bars = sns.barplot(x=season_counts.index, y=season_counts.values, palette=palette_colors, ax=ax)
+# Filter dataset untuk hanya mengambil kolom yang diperlukan
+filtered_day_df['weekday'] = filtered_day_df['date_day'].dt.day_name()  # Menambahkan kolom 'weekday' dari 'date_day'
 
-    highest_season = season_counts.idxmax()
-    for i, bar in enumerate(bars.patches):
-        if season_counts.index[i] == highest_season:
-            bar.set_facecolor('#ff4c4c')
-
-    ax.set_title('Distribusi Penyewaan Sepeda Berdasarkan Musim', fontsize=16)
-    ax.set_xlabel('Musim', fontsize=14)
-    ax.set_ylabel('Jumlah Penyewaan', fontsize=14)
-    y_ticks = ax.get_yticks().astype(int)
-    ax.set_yticklabels([f'{int(y):,}' for y in y_ticks])
+# Membuat visualisasi distribusi peminjaman berdasarkan hari dalam minggu
+def plot_weekday_distribution(df):
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x='weekday', y='total_count', data=df, ci=None, palette='viridis')
+    plt.title("Jumlah Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
+    plt.xlabel("Hari dalam Minggu", fontsize=14)
+    plt.ylabel("Jumlah Peminjaman", fontsize=14)
     plt.xticks(rotation=45)
-    plt.tight_layout()
-    st.pyplot(fig)
-    plt.close(fig)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    st.pyplot(plt)
 
-plot_season_rentals(df_day)
+plot_weekday_distribution(filtered_day_df)
 
 
 # Memberikan spasi tambahan antar elemen visual

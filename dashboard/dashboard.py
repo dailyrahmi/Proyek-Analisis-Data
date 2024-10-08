@@ -73,7 +73,7 @@ st.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda")
 
 # Visualisasi pengaruh suhu terhadap jumlah peminjaman
 plt.figure(figsize=(10, 5))
-sns.scatterplot(x='temp', y='total_count', data=df_hour , alpha=0.7)
+sns.scatterplot(x='temp', y='total_count', data=df , alpha=0.7)
 plt.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda", fontsize=16)
 plt.xlabel("Suhu (°C)", fontsize=14)
 plt.ylabel("Jumlah Peminjaman", fontsize=14)
@@ -86,6 +86,24 @@ st.write("")
 st.write("")
 
 
+
+# Membuat header untuk Visualisasi jumlah peminjaman sepeda per jam
+st.header('Visualisasi Jumlah Peminjaman Sepeda Per Jam')
+
+# Visualisasi jumlah peminjaman sepeda per jam
+plt.figure(figsize=(10, 5))
+sns.lineplot(x='hr', y='total_count', data=df_hour)
+plt.title("Jumlah Peminjaman Sepeda per Jam", fontsize=16)
+plt.xlabel("Jam", fontsize=14)
+plt.ylabel("Jumlah Peminjaman", fontsize=14)
+plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
+
+# Menampilkan plot di Streamlit
+st.pyplot(plt)
+
+# Memberikan spasi tambahan antar elemen visual
+st.write("")
+st.write("")
 
 
 # Membuat header untuk visualisasi penggunaan sepeda per jam
@@ -108,7 +126,6 @@ plot_usage_by_hour(df_hour)
 # Memberikan spasi tambahan antar elemen visual
 st.write("")
 st.write("")
-
 
 
 

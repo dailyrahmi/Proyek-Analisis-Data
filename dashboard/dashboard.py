@@ -87,33 +87,7 @@ plot_usage_by_hour(df_hour)
 st.write("")
 st.write("")
 
-# Memastikan dataset df_cleaned memiliki kolom 'weekday'
-# Menambahkan kolom 'weekday' yang merupakan nama hari jika belum ada
-if 'weekday' not in df_cleaned.columns:
-    df_cleaned['date_day'] = pd.to_datetime(df_cleaned['date_day'])  # Konversi date_day ke datetime
-    df_cleaned['weekday'] = df_cleaned['date_day'].dt.day_name()     # Menambahkan kolom weekday
 
-# Header untuk visualisasi tren peminjaman berdasarkan hari dalam minggu
-st.header('Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu')
-
-# Fungsi untuk membuat visualisasi tren peminjaman sepeda berdasarkan hari dalam minggu
-def plot_weekday_trend(df):
-    plt.figure(figsize=(10, 5))
-    sns.countplot(x='weekday', data=df, palette='viridis', order=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
-    plt.title("Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
-    plt.xlabel("Hari dalam Minggu", fontsize=14)
-    plt.ylabel("Jumlah Peminjaman", fontsize=14)
-    plt.xticks(rotation=45)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    st.pyplot(plt)
-    plt.close()  # Menutup plt untuk mencegah duplikasi visualisasi
-
-# Memanggil fungsi plot_weekday_trend dan menampilkan hasilnya di dashboard
-plot_weekday_trend(df_cleaned)
-
-# Memberikan spasi tambahan antar elemen visual
-st.write("")
-st.write("")
 
 
 # Membuat header untuk visualisasi distribusi peminjaman sepeda berdasarkan hari dalam minggu

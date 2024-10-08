@@ -106,22 +106,19 @@ st.write("")
 st.write("")
 
 
-# Membuat header untuk visualisasi penggunaan sepeda per jam
-st.header('Distribusi Penggunaan Sepeda per Jam')
+# Membuat header untuk Visualisasi tren peminjaman berdasarkan hari dalam minggu
+st.header('Visualisasi Tren Peminjaman Berdasarkan Hari dalam Minggu')
 
-# Membuat visualisasi distribusi penyewaan sepeda berdasarkan jam
-def plot_usage_by_hour(hour_df):
-    plt.figure(figsize=(12, 6))
-    sns.barplot(x='hr', y='total_count', data=hour_df, palette='coolwarm', ci=None)
-    plt.title('Distribusi Jumlah Pengguna Sepeda per Jam', fontsize=16)
-    plt.xlabel('Jam (dalam 24 jam)', fontsize=14)
-    plt.ylabel('Jumlah Pengguna (per jam)', fontsize=14)
-    plt.ylim(0, 500)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    st.pyplot(plt)
+# Visualisasi tren peminjaman berdasarkan hari dalam minggu
+plt.figure(figsize=(10, 5))
+sns.countplot(x='weekday', data=df_day)  # Ganti 'day_of_week' dengan 'weekday'
+plt.title("Tren Peminjaman Sepeda berdasarkan Hari dalam Minggu", fontsize=16)
+plt.xlabel("Hari dalam Minggu", fontsize=14)
+plt.ylabel("Jumlah Peminjaman", fontsize=14)
+plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
 
-plot_usage_by_hour(df_hour)
+# Menampilkan plot di Streamlit
+st.pyplot(plt)
 
 # Memberikan spasi tambahan antar elemen visual
 st.write("")

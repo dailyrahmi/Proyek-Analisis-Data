@@ -67,34 +67,20 @@ st.write("")
 st.write("")
 
 
-# Membuat header untuk visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
-st.header('Visualisasi Pengaruh Suhu dan Kelembapan Terhadap Jumlah Peminjaman')
 
-# Cek apakah dataset dimuat dengan benar
-df_cleaned = load_data()
-st.write(df_cleaned.head())  # Menampilkan beberapa baris pertama untuk verifikasi
+# Menampilkan judul di dashboard
+st.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda")
 
-# Membuat visualisasi pengaruh suhu dan kelembapan terhadap jumlah peminjaman
-def plot_temperature_humidity_effect(df):
-    plt.figure(figsize=(10, 5))
-    scatter = sns.scatterplot(x='temp', y='total_count', hue='humidity_level', data=df, palette='viridis', alpha=0.7)
-    plt.title("Pengaruh Suhu dan Kelembapan terhadap Jumlah Peminjaman Sepeda", fontsize=16)
-    plt.xlabel("Suhu (°C)", fontsize=14)
-    plt.ylabel("Jumlah Peminjaman", fontsize=14)
+# Visualisasi pengaruh suhu
+plt.figure(figsize=(10, 5))
+sns.barplot(x='temp', y='total_count', data=df_cleaned, palette='coolwarm', ci=None)
+plt.title("Pengaruh Suhu terhadap Jumlah Peminjaman Sepeda", fontsize=16)
+plt.xlabel("Suhu (°C)", fontsize=14)
+plt.ylabel("Jumlah Peminjaman", fontsize=14)
+plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
 
-    # Menambahkan colorbar untuk menunjukkan kelembapan
-    norm = plt.Normalize(df['humidity_level'].min(), df['humidity_level'].max())
-    sm = plt.cm.ScalarMappable(cmap='viridis', norm=norm)
-    sm.set_array([])  # Set array untuk mappable
-    cbar = plt.colorbar(sm)
-    cbar.set_label('Kelembapan (%)')
-
-    plt.grid(True)
-    plt.tight_layout()
-    st.pyplot(plt)
-
-# Memanggil fungsi untuk membuat visualisasi
-plot_temperature_humidity_effect(df_cleaned)
+# Menampilkan grafik di Streamlit
+st.pyplot(plt)
 
 
 # Memberikan spasi tambahan antar elemen visual

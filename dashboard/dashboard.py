@@ -115,7 +115,7 @@ st.write("Grafik berikut menunjukkan jumlah peminjaman sepeda berdasarkan hari d
 
 # Visualisasi tren peminjaman berdasarkan hari dalam minggu
 plt.figure(figsize=(10, 5))
-sns.lineplot(x='weekday', y='total_count', data=df_day, marker='o')  # Menggunakan lineplot untuk tren
+sns.lineplot(x='weekday', y='total_count', data=daily_counts, marker='o')  # Menggunakan lineplot untuk tren
 plt.title("Tren Peminjaman Sepeda berdasarkan Hari dalam Minggu", fontsize=16)
 plt.xlabel("Hari dalam Minggu", fontsize=14)
 plt.ylabel("Jumlah Peminjaman", fontsize=14)

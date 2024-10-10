@@ -106,18 +106,24 @@ st.write("")
 st.write("")
 
 
-# Membuat header untuk Visualisasi tren peminjaman berdasarkan hari dalam minggu
-st.header('Visualisasi Tren Peminjaman Berdasarkan Hari dalam Minggu')
+# Menghitung jumlah peminjaman berdasarkan hari dalam minggu
+daily_counts = df.groupby('weekday')['total_count'].sum().reset_index()
+
+# Menampilkan visualisasi di dashboard
+st.title("Visualisasi Tren Peminjaman Sepeda Berdasarkan Hari dalam Minggu")
+st.write("Grafik berikut menunjukkan jumlah peminjaman sepeda berdasarkan hari dalam minggu.")
 
 # Visualisasi tren peminjaman berdasarkan hari dalam minggu
 plt.figure(figsize=(10, 5))
-sns.countplot(x='weekday', data=df_day)  # Ganti 'day_of_week' dengan 'weekday'
+sns.lineplot(x='weekday', y='total_count', data=df_day, marker='o')  # Menggunakan lineplot untuk tren
 plt.title("Tren Peminjaman Sepeda berdasarkan Hari dalam Minggu", fontsize=16)
 plt.xlabel("Hari dalam Minggu", fontsize=14)
 plt.ylabel("Jumlah Peminjaman", fontsize=14)
 plt.xticks(rotation=45)  # Mengatur rotasi label sumbu x agar lebih mudah dibaca
+plt.grid(True)  # Menambahkan grid untuk memudahkan pembacaan
+plt.tight_layout()  # Mengatur tata letak
 
-# Menampilkan plot di Streamlit
+# Menampilkan grafik dalam Streamlit
 st.pyplot(plt)
 
 # Memberikan spasi tambahan antar elemen visual

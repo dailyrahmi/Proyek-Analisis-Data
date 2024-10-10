@@ -141,7 +141,7 @@ filtered_day_df['weekday'] = filtered_day_df['date_day'].dt.day_name()  # Menamb
 # Membuat visualisasi distribusi peminjaman berdasarkan hari dalam minggu
 def plot_weekday_distribution(df):
     plt.figure(figsize=(12, 6))
-    sns.barplot(x='weekday', y='total_count', data=df, ci=None, palette='viridis')
+    sns.barplot(x='weekday', y='total_count', data=df_day, ci=None, palette='viridis')
     plt.title("Jumlah Peminjaman Sepeda Berdasarkan Hari dalam Minggu", fontsize=16)
     plt.xlabel("Hari dalam Minggu", fontsize=14)
     plt.ylabel("Jumlah Peminjaman", fontsize=14)

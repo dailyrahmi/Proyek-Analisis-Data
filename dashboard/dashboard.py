@@ -8,8 +8,8 @@ sns.set(style='ticks')
 
 # Memuat dataset
 def load_data():
-    df_day = pd.read_csv('data/data_day.csv')
-    df_hour = pd.read_csv('data/data_hour.csv')
+    df_day = pd.read_csv('../data/data_day.csv')
+    df_hour = pd.read_csv('../data/data_hour.csv')
     return df_day, df_hour
 
 df_day, df_hour = load_data()
